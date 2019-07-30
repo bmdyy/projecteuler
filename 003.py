@@ -7,4 +7,4 @@ while (n != 1):
     i += 1;
   f.append(i);
   n /= i;
-print(f);
+print(f[-1]);
