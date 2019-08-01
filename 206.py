@@ -1,5 +1,3 @@
-import math;
-
 def match(n):
     p = 1020304050607080900;
 
