@@ -1,41 +1,24 @@
 import math;
-import time;
 
-def fill_form(f, b):
-  ret = '';
-  b_ = str(b);
-  b_len = len(b_);
-  idx = 0;
-  for i in range(len(f)):
-    if f[i] != '_':
-      ret += f[i];
-    else:
-      if idx >= b_len:
-        ret += '0';
-      else:
-        ret += b_[idx];
-      idx += 1;
-  return int(ret);
+def match(n):
+    p = 1020304050607080900;
 
-start = time.time();
-blanks = 0; # lim = 999 999 999
-form = '38_318_9';
+    while n > 0:
+        n_ = n % 10;
+        p_ = p % 10;
 
-while blanks < 999999999:
-  sqrt_ = math.sqrt(fill_form(form, blanks));
-  if sqrt_ // 1 == sqrt_:
-    break;
-  blanks += 1;
+        if n_ != p_:
+            return False;
 
-print(fill_form(form, blanks));
-print("ela %f seconds" % (time.time() - start));
+        n //= 100; # skip _
+        p //= 100;
+    return True;
 
-# needs to go like this
-# form has 9 blanks
-# 000 000 001
-# 000 000 002
-# ...
-# instead of going
-# 100 000 000
-# 200 000 000
-# ...
+l_lim = 1010101010; # sqrt(1020304050607080900)
+u_lim = 1389026623; # sqrt(1929394959697989990)
+
+for i in range(l_lim, u_lim + 1, 10): # form ends with 0 -> i must end with 0
+    if match(i * i):
+        break;
+    
+print(i);
