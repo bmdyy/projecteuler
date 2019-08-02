@@ -21,10 +21,10 @@ def find_b(x, y, m):
 def get_tangent_m(x, y):
   return -4 * x / y;
 
-def get_refl_angle(m1, m2):
+def get_refl_angle(m1, m2): # i think this is correct
   return math.pi - math.atan(abs( (m1 - m2)/(1 + m1 + m2) ));
 
-def get_refl_m(m1, m2):
+def get_refl_m(m1, m2): # this might be wrong
   return math.tan(get_refl_angle(m1, m2));
 
 def on_line(x0, y0, m1, b1):
@@ -84,7 +84,6 @@ for i in range(3):
   c_m = get_refl_m(c_m, get_tangent_m(c_x, c_y)); # this might be incorrrect
   
   print(round(c_x, 2),'\t',round(c_y, 2),'\t',round(c_m, 2));
-
   if exits_oval(c_x, c_y):
     break;
 
