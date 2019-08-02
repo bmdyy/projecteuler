@@ -18,11 +18,17 @@ def find_b(x, y, m):
   # b = y - mx
   return y - m * x;
 
+def get_tangent_m(x, y):
+  return -4 * x / y;
+
+def get_refl_angle(m1, m2):
+  return math.pi - math.atan(abs( (m1 - m2)/(1 + m1 + m2) ));
+
+def get_refl_m(m1, m2):
+  return math.tan(get_refl_angle(m1, m2));
+
 def oval_fx(x):
-  # 4x^2 + y^2 = 100
-  # we are given x 
-  # sqrt(4x^2 - 100) = y
-  return math.sqrt(4 * (x ** 2) - 100);
+  return -math.sqrt(100 - 4 * (x ** 2));
 
 def next_intersection(x, y, m):
   # our oval is defined as 4x^2 + y^2 = 100
@@ -45,8 +51,16 @@ def next_intersection(x, y, m):
   qdr_c = b ** 2 - 100;
 
   i_x = qdr_eq(qdr_a, qdr_b, qdr_c);
-  sol = [[i_x[0], oval_fx(i_x[0])], [i_x[1], oval_fx(i_x[1])]];
+  sol_0 = [i_x[0], oval_fx(i_x[0])];
+  sol_1 = [i_x[1], oval_fx(i_x[1])];
 
-  return sol;
+  print(sol_0);
+  print(sol_1);
 
-print(next_intersection(c_x, c_y, c_m));
+  return sol_1;
+
+next_int = next_intersection(c_x, c_y, c_m);
+c_x = next_int[0];
+c_y = next_int[1];
+c_m = get_refl_m(c_m, get_tangent_m(c_x, c_y));
+#print(c_x,'\t',c_y,'\t',c_m);
