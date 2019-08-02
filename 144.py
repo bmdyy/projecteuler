@@ -22,7 +22,7 @@ def get_tangent_m(x, y):
   return -4 * x / y;
 
 def get_refl_angle(m1, m2): # i think this is correct
-  return math.pi - math.atan(abs( (m1 - m2)/(1 + m1 + m2) ));
+  return abs((m2-m1)/(1 + m2 * m1));
 
 def get_refl_m(m1, m2): # this might be wrong
   return math.tan(get_refl_angle(m1, m2));
@@ -77,13 +77,14 @@ def next_intersection(x, y, m):
     return sol_1;
 
 bounces = 0;
-for i in range(3):
+for i in range(4):
   next_int = next_intersection(c_x, c_y, c_m);
   c_x = next_int[0];
   c_y = next_int[1];
   c_m = get_refl_m(c_m, get_tangent_m(c_x, c_y)); # this might be incorrrect
-  
-  print(round(c_x, 2),'\t',round(c_y, 2),'\t',round(c_m, 2));
+
+  print(round(c_x, 2),'\t',round(c_y, 2),'\t',round(c_m, 2),'\t',bounces);
+
   if exits_oval(c_x, c_y):
     break;
 
