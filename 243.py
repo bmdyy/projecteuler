@@ -1,12 +1,3 @@
-# totient function
-primes = [2,3,5,7,11,13,17,19,23,29,31,37,41,43,47];
-def r(d):
-    prod = d;
-    for prime in primes:
-        if d % prime == 0:
-            prod *= (1 - 1/prime);
-    return prod / (d - 1);
-
 def is_prime(n):
     if n <= 3:
         return n > 1;
@@ -19,18 +10,36 @@ def is_prime(n):
         i += 6;
     return True;
 
-ul = 15499 / 94744;
-a = 2 * 3 * 5 * 7 * 9 * 11 * 13 * 17 * 19;
-r_a = 1;
-best_low = 1;
-while r_a > ul:
-    r_a = r(a);
-    if r_a < best_low:
-        best_low = r_a;
-        print(a, r_a);
-    if r_a <= ul:
-        print(a, 'winner');
-        break;
-    a += 1;
+def next_prime(p):
+  p += 1;
+  while not is_prime(p):
+    p += 1;
+  return p;
 
-# all prime have r(d) = 1.0 -> skip
+# phi = n * (1 - 1/p_0) * ... * (1 - 1/p_i);
+# first we will find a lower bound aka
+# a number that doesnt pass the target, but multiplied
+# by the next prime does
+# then we backpedal by 1 prime and do some brute forcing
+# multipying by composite numbers
+
+p = 2; # curr prime number
+num = 1;
+den = 1;
+target = 15499/94744;
+
+# (1 - 1/p) = ((p - 1) / p)
+
+while True:
+  num *= p - 1;
+  den *= p;
+
+  if num / den < target:
+    for i in range(1, p):
+      num_ = i * num;
+      den_ = i * den;
+      if num_/(den_-1) < target:
+        print(den_);
+        exit();
+
+  p = next_prime(p);
