@@ -27,8 +27,24 @@ def get_refl_angle(m1, m2):
 def get_refl_m(m1, m2):
   return math.tan(get_refl_angle(m1, m2));
 
-def oval_fx(x):
-  return -math.sqrt(100 - 4 * (x ** 2));
+def on_line(x0, y0, m1, b1):
+  # check if the solution makes sense
+  return y0 == m1 * x0 + b1;
+
+def dist_2d(x0, y0, x1, y1):
+  return math.sqrt((x0 - x1) ** 2 + (y0 - y1) ** 2);
+
+def oval_fx(x, m_, b_):
+  y0 = math.sqrt(100 - 4 * (x ** 2));
+  y1 = -y0;
+
+  if on_line(x, y0, m_, b_):
+    return y0;
+  else:
+    return y1;
+
+def exits_oval(x, y):
+  return -0.01 <= x and x <= 0.01 and y > 0;
 
 def next_intersection(x, y, m):
   # our oval is defined as 4x^2 + y^2 = 100
@@ -51,16 +67,26 @@ def next_intersection(x, y, m):
   qdr_c = b ** 2 - 100;
 
   i_x = qdr_eq(qdr_a, qdr_b, qdr_c);
-  sol_0 = [i_x[0], oval_fx(i_x[0])];
-  sol_1 = [i_x[1], oval_fx(i_x[1])];
+  sol_0 = [i_x[0], oval_fx(i_x[0], m, b)];
+  sol_1 = [i_x[1], oval_fx(i_x[1], m, b)];
 
-  print(sol_0);
-  print(sol_1);
+  # we want the further solution
+  if dist_2d(x, y, sol_0[0], sol_0[1]) > dist_2d(x, y, sol_1[0], sol_1[1]):
+    return sol_0;
+  else:
+    return sol_1;
 
-  return sol_1;
+bounces = 0;
+for i in range(3):
+  next_int = next_intersection(c_x, c_y, c_m);
+  c_x = next_int[0];
+  c_y = next_int[1];
+  c_m = get_refl_m(c_m, get_tangent_m(c_x, c_y)); # this might be incorrrect
+  
+  print(round(c_x, 2),'\t',round(c_y, 2),'\t',round(c_m, 2));
 
-next_int = next_intersection(c_x, c_y, c_m);
-c_x = next_int[0];
-c_y = next_int[1];
-c_m = get_refl_m(c_m, get_tangent_m(c_x, c_y));
-#print(c_x,'\t',c_y,'\t',c_m);
+  if exits_oval(c_x, c_y):
+    break;
+
+  bounces += 1;
+print(bounces);
