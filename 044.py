@@ -1,11 +1,21 @@
-def next_pent_num(n):
-  return n*(3*n-1)/2;
+from math import sqrt;
 
-p = 1;
-l_p = 0;
-while p < 1000:
-  l_p = p;
-  p = next_pent_num(p);
+def pent_num(n):
+  return n * (3 * n - 1) / 2;
 
-  s = l_p + p;
-  d = l_p - p;
+def is_pent(n):
+  if n < 0:
+    return False;
+  return (1 + sqrt(1 + 24*n)) / 6 % 1 == 0;
+
+for j in range(1, 5000):
+  p_j = pent_num(j);
+  for k in range(1, 5000):
+    p_k = pent_num(k);
+    s = p_j + p_k;
+    if not is_pent(s):
+      continue;
+    d = p_k - p_j;
+    if not is_pent(d):
+      continue;
+    print(d);
