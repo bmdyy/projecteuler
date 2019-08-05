@@ -25,8 +25,8 @@ CC_DECK = [None] * 16;
 CC_DECK[0] = GO;
 CC_DECK[1] = JAIL;
 
-#shuffle(CH_DECK);
-#shuffle(CC_DECK);
+shuffle(CH_DECK);
+shuffle(CC_DECK);
 
 def draw_from(n):
   c = 0;
