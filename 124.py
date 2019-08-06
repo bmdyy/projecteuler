@@ -61,6 +61,6 @@ def sorted_table(n):
   return t;
 
 def E(t, k):
-  return t[k - 1];
+  return t[k - 1][0];
 
 print(E(sorted_table(100000), 10000));
